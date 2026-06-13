@@ -1,0 +1,376 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f5f6f7;
+  color: #1c1f23;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f5f6f7 42%, #eceff1 100%);
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(100% - 32px, 980px);
+  margin: 0 auto;
+  padding: 28px 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.room-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 12px;
+  height: 42px;
+  border: 1px solid #cfd6dd;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 0.9rem;
+}
+
+.room-label {
+  color: #59616b;
+}
+
+.room-id {
+  font-size: 1rem;
+  font-weight: 720;
+  letter-spacing: 0.08em;
+  color: #1f2328;
+}
+
+.copy-btn {
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid #cfd6dd;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #374151;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 100ms ease;
+}
+
+.copy-btn:hover {
+  background: #f3f4f6;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 720;
+}
+
+.status {
+  margin: 5px 0 0;
+  color: #59616b;
+  font-size: 0.95rem;
+}
+
+.status.is-online {
+  color: #16705f;
+}
+
+.status.is-offline {
+  color: #b23434;
+}
+
+.clear-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #cfd6dd;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #252a30;
+  cursor: pointer;
+  font-weight: 650;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    transform 120ms ease;
+}
+
+.clear-button:hover {
+  border-color: #89939f;
+  background: #f9fafb;
+}
+
+.clear-button:active {
+  transform: translateY(1px);
+}
+
+.board-wrap {
+  position: relative;
+  width: min(100%, 800px);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  border: 1px solid #cbd3dc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(28, 31, 35, 0.14);
+  touch-action: none;
+}
+
+#whiteboard {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(rgba(70, 76, 84, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(70, 76, 84, 0.06) 1px, transparent 1px),
+    #ffffff;
+  background-size: 32px 32px;
+  cursor: crosshair;
+}
+
+.cursor-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.remote-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  transform: translate(-100px, -100px);
+  transition: transform 70ms linear;
+}
+
+.remote-cursor::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 15px solid var(--cursor-color, #e05252);
+  border-right: 10px solid transparent;
+  content: "";
+  filter: drop-shadow(0 2px 2px rgba(28, 31, 35, 0.22));
+}
+
+.remote-cursor::after {
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--cursor-color, #e05252);
+  content: "";
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.cursor-name {
+  position: absolute;
+  left: 16px;
+  top: -2px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--cursor-color, #e05252);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 18px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.name-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(28, 31, 35, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.name-overlay.hidden {
+  display: none;
+}
+
+.name-modal {
+  width: min(92%, 480px);
+  padding: 32px 28px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(28, 31, 35, 0.22);
+}
+
+.name-modal h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  font-weight: 720;
+}
+
+.name-modal p {
+  margin: 0 0 20px;
+  color: #59616b;
+  font-size: 0.9rem;
+}
+
+.name-modal form {
+  display: flex;
+  gap: 8px;
+}
+
+.name-modal input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #cfd6dd;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+.name-modal input:focus {
+  border-color: #4e9af1;
+}
+
+.name-modal form button {
+  height: 42px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 8px;
+  background: #1f2328;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 120ms ease;
+}
+
+.name-modal form button:hover {
+  background: #373d46;
+}
+
+/* Room ID input — bigger digits, centered */
+#roomIdInput {
+  font-size: 1.4rem;
+  font-weight: 720;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+/* Action cards */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 18px 16px;
+  border: 1.5px solid #cfd6dd;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+.action-card:hover {
+  border-color: #1f2328;
+  background: #f9fafb;
+}
+
+.action-card:active {
+  transform: translateY(1px);
+}
+
+.action-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2328;
+}
+
+.action-desc {
+  font-size: 0.8rem;
+  color: #59616b;
+  line-height: 1.4;
+}
+
+/* Error + back */
+.modal-error {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: #b23434;
+  min-height: 1.2em;
+}
+
+.link-btn {
+  margin-top: 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #59616b;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link-btn:hover {
+  color: #1f2328;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(100% - 20px, 980px);
+    padding: 18px 0;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .clear-button {
+    width: 100%;
+  }
+}

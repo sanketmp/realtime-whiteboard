@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realtime Whiteboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Realtime Whiteboard</h1>
+          <p class="status" id="connectionStatus">Connecting...</p>
+        </div>
+        <div class="topbar-right">
+          <div class="room-badge" id="roomBadge" hidden>
+            <span class="room-label">Room</span>
+            <strong class="room-id" id="roomIdDisplay"></strong>
+            <button class="copy-btn" id="copyRoomId" type="button">Copy</button>
+          </div>
+          <button class="clear-button" id="clearButton" type="button">Clear canvas</button>
+        </div>
+      </header>
+
+      <section class="board-wrap" aria-label="Collaborative drawing canvas">
+        <canvas id="whiteboard" width="800" height="600"></canvas>
+        <div class="cursor-layer" id="cursorLayer" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <div class="name-overlay" id="nameOverlay">
+      <div class="name-modal">
+
+        <!-- Step 1: Name -->
+        <div class="modal-step" id="stepName">
+          <h2>Welcome</h2>
+          <p>Enter your name so others can see your cursor.</p>
+          <form id="nameForm">
+            <input
+              type="text"
+              id="nameInput"
+              placeholder="Your name"
+              maxlength="24"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">Continue →</button>
+          </form>
+        </div>
+
+        <!-- Step 2: Create or Join -->
+        <div class="modal-step" id="stepAction" style="display:none">
+          <h2>What would you like to do?</h2>
+          <div class="action-grid">
+            <button class="action-card" id="btnCreate" type="button">
+              <span class="action-title">Create a whiteboard</span>
+              <span class="action-desc">Start a new session and share the ID with others</span>
+            </button>
+            <button class="action-card" id="btnJoin" type="button">
+              <span class="action-title">Join a whiteboard</span>
+              <span class="action-desc">Enter a 6-digit ID to join an existing board</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Join by ID -->
+        <div class="modal-step" id="stepJoin" style="display:none">
+          <h2>Join a whiteboard</h2>
+          <p>Enter the 6-digit ID shared by the creator.</p>
+          <form id="joinForm">
+            <input
+              type="text"
+              id="roomIdInput"
+              placeholder="123456"
+              maxlength="6"
+              inputmode="numeric"
+              pattern="[0-9]{6}"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">Join</button>
+          </form>
+          <p class="modal-error" id="joinError"></p>
+          <button class="link-btn" id="btnBack" type="button">← Back</button>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
